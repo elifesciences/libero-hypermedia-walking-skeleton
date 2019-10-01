@@ -1,13 +1,14 @@
 import * as Koa from 'koa';
 import * as logger from 'koa-logger';
 import * as Router from 'koa-router'
+import {JsonLdObj} from "jsonld/jsonld-spec";
 import article from './routes/article';
 import list from './routes/list';
 
 const app: Koa = new Koa();
 const router: Router = new Router();
 
-const articles: { [key: string]: object } = {
+const articles: { [key: string]: JsonLdObj } = {
     '09560': {
         '@type': 'http://schema.org/Article',
         '@id': 'http://localhost:8081/articles/09560',
