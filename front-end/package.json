@@ -4,11 +4,14 @@
         "node": "10.16.3"
     },
     "dependencies": {
+        "axios": "^0.19.0",
+        "jsonld": "^1.8.0",
         "koa": "^2.8.2",
         "koa-logger": "^3.2.1",
         "koa-router": "^7.4.0"
     },
     "devDependencies": {
+        "@types/jsonld": "^1.5.0",
         "@types/koa": "^2.0.50",
         "@types/koa-logger": "^3.1.1",
         "@types/koa-router": "^7.0.42",
