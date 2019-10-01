@@ -1,0 +1,23 @@
+{
+    "private": true,
+    "engines": {
+        "node": "10.16.3"
+    },
+    "dependencies": {
+        "koa": "^2.8.2",
+        "koa-logger": "^3.2.1",
+        "koa-router": "^7.4.0"
+    },
+    "devDependencies": {
+        "@types/koa": "^2.0.50",
+        "@types/koa-logger": "^3.1.1",
+        "@types/koa-router": "^7.0.42",
+        "nodemon": "^1.19.3",
+        "ts-node": "^8.4.1",
+        "typescript": "^3.6.3"
+    },
+    "scripts": {
+        "start": "node --require ts-node/register ./src/index.ts",
+        "start:watch": "nodemon --legacy-watch"
+    }
+}
