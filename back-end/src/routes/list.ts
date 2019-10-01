@@ -6,14 +6,15 @@ import {Context, Document} from 'jsonld/jsonld-spec';
 interface ListRouteContext extends Koa.Context {
 }
 
-export default (): Koa.Middleware => {
+export default (articles: { [key: string]: object }): Koa.Middleware => {
     const context: Context = {
         'schema': 'http://schema.org/',
     };
-
+console.log(Object.values(articles).map((object: object): string => object['@id']));
     const list: Document = {
         '@type': 'http://schema.org/Collection',
         'http://schema.org/name': 'List of articles',
+        'http://schema.org/hasPart': Object.values(articles).map((object: object): string => object['@id']),
     };
 
     return async ({response}: ListRouteContext): Promise<void> => {

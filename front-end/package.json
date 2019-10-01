@@ -4,13 +4,18 @@
         "node": "10.16.3"
     },
     "dependencies": {
+        "atob": "^2.1.2",
         "axios": "^0.19.0",
+        "axios-logger": "^2.2.0",
+        "btoa": "^1.2.1",
         "jsonld": "^1.8.0",
         "koa": "^2.8.2",
         "koa-logger": "^3.2.1",
         "koa-router": "^7.4.0"
     },
     "devDependencies": {
+        "@types/atob": "^2.1.2",
+        "@types/btoa": "^1.2.3",
         "@types/jsonld": "^1.5.0",
         "@types/koa": "^2.0.50",
         "@types/koa-logger": "^3.1.1",
