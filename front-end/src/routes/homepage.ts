@@ -5,9 +5,24 @@ import jsonld from 'jsonld';
 import {JsonLdArray, JsonLdObj} from 'jsonld/jsonld-spec';
 import btoa from 'btoa';
 import Router from 'koa-router';
+import escapeHTML from 'escape-html';
 
 interface HomepageRouteContext extends Koa.Context {
 }
+
+export const findCreateAction = (thing: JsonLdObj): JsonLdObj | null => {
+    return thing['http://schema.org/potentialAction'].reduce((carry: JsonLdObj | null, action: JsonLdObj): JsonLdObj | null => {
+        if (carry) {
+            return carry;
+        }
+
+        if (!(action['@type'].includes('http://schema.org/CreateAction')) || !(action['http://schema.org/result'][0]['@type'].includes('http://schema.org/Article'))) {
+            return null;
+        }
+
+        return action;
+    }, null);
+};
 
 export default (client: AxiosInstance, router: Router): Koa.Middleware => {
     const fetch = async (uri: string, type: string): Promise<JsonLdObj> => {
@@ -50,6 +65,17 @@ export default (client: AxiosInstance, router: Router): Koa.Middleware => {
             body += '</ol>';
         } else {
             body += '<p>No articles available.</p>';
+        }
+
+        const createAction = findCreateAction(list);
+
+        if (createAction) {
+            body += '<h2>Create an article</h2>';
+            body += `<form action="${router.url('create-article', {})}" method="post">`;
+            body += '<label>Name <input type="text" name="fields.name"></label><br>';
+            body += `<input type="hidden" name="action" value="${escapeHTML(JSON.stringify(await jsonld.compact(createAction, 'http://schema.org/')))}">`;
+            body += '<input type="submit" value="Add">';
+            body += '</form>';
         }
 
         body += '</body></html>';
