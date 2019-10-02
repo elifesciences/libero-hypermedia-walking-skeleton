@@ -2,7 +2,7 @@ import * as Koa from 'koa';
 import {constants} from 'http2';
 import * as jsonld from 'jsonld';
 import {Context} from 'jsonld/jsonld-spec';
-import {Articles} from "../articles";
+import {Nodes} from "../nodes";
 
 interface ListRouteContext extends Koa.Context {
     params: {
@@ -10,7 +10,7 @@ interface ListRouteContext extends Koa.Context {
     },
 }
 
-export default (articles: Articles): Koa.Middleware => {
+export default (articles: Nodes): Koa.Middleware => {
     const context: Context = {
         'schema': 'http://schema.org/',
     };
@@ -18,13 +18,13 @@ export default (articles: Articles): Koa.Middleware => {
     return async ({response, params: {id}}: ListRouteContext): Promise<void> => {
         const iri = `http://localhost:8081/articles/${id}`;
 
-        if (!(articles.has(iri))) {
+        if (!(await articles.has(iri))) {
             response.status = constants.HTTP_STATUS_NOT_FOUND;
             return;
         }
 
         response.status = constants.HTTP_STATUS_OK;
         response.type = 'application/ld+json';
-        response.body = await jsonld.compact(articles.get(iri), context);
+        response.body = await jsonld.compact(await articles.get(iri), context);
     };
 };

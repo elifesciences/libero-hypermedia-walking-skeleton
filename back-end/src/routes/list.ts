@@ -2,12 +2,12 @@ import * as Koa from 'koa';
 import {constants} from 'http2';
 import * as jsonld from 'jsonld';
 import {Context, Document, JsonLdObj} from 'jsonld/jsonld-spec';
-import {Articles} from "../articles";
+import {Nodes} from "../nodes";
 
 interface ListRouteContext extends Koa.Context {
 }
 
-export default (articles: Articles): Koa.Middleware => {
+export default (articles: Nodes): Koa.Middleware => {
     const context: Context = {
         'schema': 'http://schema.org/',
     };
