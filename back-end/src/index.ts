@@ -1,37 +1,34 @@
 import Koa from 'koa';
 import logger from 'koa-logger';
 import Router from 'koa-router'
+import bodyParser from 'koa-bodyparser';
+import action from './routes/action';
 import article from './routes/article';
 import list from './routes/list';
+import postAction from './routes/post-action';
 import {FileNodes, Nodes} from "./nodes";
 import path from "path";
 
 const app: Koa = new Koa();
 const router: Router = new Router();
 
+const actionIriGenerator = (id: string) => `http://localhost:8081${router.url('action', id)}`;
 const articleIriGenerator = (id: string) => `http://localhost:8081${router.url('article', id)}`;
 
-const articles: Nodes = new FileNodes(path.resolve(__dirname, '../db'), articleIriGenerator);
+const actions: Nodes = new FileNodes(path.resolve(__dirname, '../db/actions'), actionIriGenerator);
+const articles: Nodes = new FileNodes(path.resolve(__dirname, '../db/articles'), articleIriGenerator);
 
-router.get('list', '/', list(articles));
+router.get('list', '/', list(articles, router));
 router.get('article', '/articles/:id', article(articles, articleIriGenerator));
+router.get('action', '/actions/:id', action(actions, actionIriGenerator));
+router.post('create-action', '/actions', postAction(actions, articles));
 
 app.use(logger());
+app.use(bodyParser({
+    extendTypes: {
+        json: ['application/ld+json'],
+    },
+}));
 app.use(router.routes()).use(router.allowedMethods());
-
-(async (): Promise<void> => {
-    await Promise.all([
-        articles.add({
-            '@type': 'http://schema.org/Article',
-            '@id': articleIriGenerator('09560'),
-            'http://schema.org/name': 'Homo naledi, a new species of the genus Homo from the Dinaledi Chamber, South Africa',
-        }),
-        articles.add({
-            '@type': 'http://schema.org/Article',
-            '@id': articleIriGenerator('24231'),
-            'http://schema.org/name': 'The age of Homo naledi and associated sediments in the Rising Star Cave, South Africa',
-        }),
-    ]);
-})();
 
 app.listen(8081, (): void => console.log('Back-end started'));
