@@ -11,9 +11,7 @@ interface ListRouteContext extends Koa.Context {
 }
 
 export default (articles: Nodes, iriGenerator: (string) => Iri): Koa.Middleware => {
-    const context: Context = {
-        'schema': 'http://schema.org/',
-    };
+    const context: Context = 'http://schema.org/';
 
     return async ({response, params: {id}}: ListRouteContext): Promise<void> => {
         const iri = iriGenerator(id);

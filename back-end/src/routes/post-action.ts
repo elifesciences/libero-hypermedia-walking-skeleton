@@ -12,9 +12,7 @@ interface PostActionRouteContext extends Koa.Context {
 }
 
 export default (actions: Nodes, articles: Nodes): Koa.Middleware => {
-    const context: Context = {
-        'schema': 'http://schema.org/',
-    };
+    const context: Context = 'http://schema.org/';
 
     return async ({request, response}: PostActionRouteContext): Promise<void> => {
         const expanded = <JsonLdArray>await jsonld.expand(request.body);

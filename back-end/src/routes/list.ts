@@ -9,9 +9,7 @@ interface ListRouteContext extends Koa.Context {
 }
 
 export default (articles: Nodes, router: Router): Koa.Middleware => {
-    const context: Context = {
-        'schema': 'http://schema.org/',
-    };
+    const context: Context = 'http://schema.org/';
 
     return async ({response}: ListRouteContext): Promise<void> => {
         const createActionRoute = router.route('create-action');
