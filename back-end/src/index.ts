@@ -3,12 +3,13 @@ import * as logger from 'koa-logger';
 import * as Router from 'koa-router'
 import article from './routes/article';
 import list from './routes/list';
-import {InMemoryNodes, Nodes} from "./nodes";
+import {FileNodes, Nodes} from "./nodes";
+import * as path from "path";
 
 const app: Koa = new Koa();
 const router: Router = new Router();
 
-const articles: Nodes = new InMemoryNodes();
+const articles: Nodes = new FileNodes(path.resolve(__dirname, '../db'));
 
 router.get('list', '/', list(articles));
 router.get('article', '/articles/:id', article(articles));
