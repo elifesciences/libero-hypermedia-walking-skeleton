@@ -39,6 +39,10 @@ export class FileNodes implements Nodes {
         ensureDir(this.dir);
         const files = fs.readdirSync(this.dir);
 
+        if (!(node['@type'])) {
+            throw new Error('Not a node object');
+        }
+
         node['@id'] = this.idGenerator(files.length + 1);
         await jsonfile.writeFile(this.filePath(node['@id']), node, {spaces: 2});
     }
