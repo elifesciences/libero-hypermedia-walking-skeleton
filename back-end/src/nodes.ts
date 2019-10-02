@@ -1,8 +1,9 @@
 import {Iri, JsonLdObj} from 'jsonld/jsonld-spec';
-import * as jsonfile from 'jsonfile';
-import * as path from 'path';
-import * as fs from 'fs';
-import * as crypto from 'crypto';
+import jsonfile from 'jsonfile';
+import path from 'path';
+import fs from 'fs';
+import crypto from 'crypto';
+import uniqueString from 'unique-string';
 
 export interface Nodes {
     all(): Iterable<JsonLdObj>;
@@ -37,13 +38,15 @@ export class FileNodes implements Nodes {
 
     async add(node: JsonLdObj): Promise<void> {
         ensureDir(this.dir);
-        const files = fs.readdirSync(this.dir);
 
         if (!(node['@type'])) {
             throw new Error('Not a node object');
         }
 
-        node['@id'] = this.idGenerator(files.length + 1);
+        if (!(node['@id'])) {
+            node['@id'] = this.idGenerator(uniqueString());
+        }
+
         await jsonfile.writeFile(this.filePath(node['@id']), node, {spaces: 2});
     }
 

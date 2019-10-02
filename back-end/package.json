@@ -8,7 +8,8 @@
         "jsonld": "^1.8.0",
         "koa": "^2.8.2",
         "koa-logger": "^3.2.1",
-        "koa-router": "^7.4.0"
+        "koa-router": "^7.4.0",
+        "unique-string": "^2.0.0"
     },
     "devDependencies": {
         "@types/jsonfile": "^5.0.0",

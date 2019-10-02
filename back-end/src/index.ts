@@ -1,10 +1,10 @@
-import * as Koa from 'koa';
-import * as logger from 'koa-logger';
-import * as Router from 'koa-router'
+import Koa from 'koa';
+import logger from 'koa-logger';
+import Router from 'koa-router'
 import article from './routes/article';
 import list from './routes/list';
 import {FileNodes, Nodes} from "./nodes";
-import * as path from "path";
+import path from "path";
 
 const app: Koa = new Koa();
 const router: Router = new Router();
@@ -23,10 +23,12 @@ app.use(router.routes()).use(router.allowedMethods());
     await Promise.all([
         articles.add({
             '@type': 'http://schema.org/Article',
+            '@id': articleIriGenerator('09560'),
             'http://schema.org/name': 'Homo naledi, a new species of the genus Homo from the Dinaledi Chamber, South Africa',
         }),
         articles.add({
             '@type': 'http://schema.org/Article',
+            '@id': articleIriGenerator('24231'),
             'http://schema.org/name': 'The age of Homo naledi and associated sediments in the Rising Star Cave, South Africa',
         }),
     ]);

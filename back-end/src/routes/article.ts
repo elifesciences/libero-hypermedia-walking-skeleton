@@ -1,6 +1,6 @@
-import * as Koa from 'koa';
+import Koa from 'koa';
 import {constants} from 'http2';
-import * as jsonld from 'jsonld';
+import jsonld from 'jsonld';
 import {Context, Iri} from 'jsonld/jsonld-spec';
 import {Nodes} from "../nodes";
 
