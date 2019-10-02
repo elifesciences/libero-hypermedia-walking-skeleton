@@ -19,9 +19,11 @@ const ensureDir = (path: string) => fs.mkdirSync(path, {recursive: true});
 
 export class FileNodes implements Nodes {
     private readonly dir: string;
+    private readonly idGenerator: (string) => Iri;
 
-    constructor(dir: string) {
+    constructor(dir: string, idGenerator: (string) => Iri) {
         this.dir = dir;
+        this.idGenerator = idGenerator;
     }
 
     * all(): Iterable<JsonLdObj> {
@@ -35,6 +37,9 @@ export class FileNodes implements Nodes {
 
     async add(node: JsonLdObj): Promise<void> {
         ensureDir(this.dir);
+        const files = fs.readdirSync(this.dir);
+
+        node['@id'] = this.idGenerator(files.length + 1);
         await jsonfile.writeFile(this.filePath(node['@id']), node, {spaces: 2});
     }
 

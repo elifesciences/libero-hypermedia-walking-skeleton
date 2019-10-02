@@ -9,10 +9,12 @@ import * as path from "path";
 const app: Koa = new Koa();
 const router: Router = new Router();
 
-const articles: Nodes = new FileNodes(path.resolve(__dirname, '../db'));
+const articleIriGenerator = (id: string) => `http://localhost:8081${router.url('article', id)}`;
+
+const articles: Nodes = new FileNodes(path.resolve(__dirname, '../db'), articleIriGenerator);
 
 router.get('list', '/', list(articles));
-router.get('article', '/articles/:id', article(articles));
+router.get('article', '/articles/:id', article(articles, articleIriGenerator));
 
 app.use(logger());
 app.use(router.routes()).use(router.allowedMethods());
@@ -21,12 +23,10 @@ app.use(router.routes()).use(router.allowedMethods());
     await Promise.all([
         articles.add({
             '@type': 'http://schema.org/Article',
-            '@id': 'http://localhost:8081/articles/09560',
             'http://schema.org/name': 'Homo naledi, a new species of the genus Homo from the Dinaledi Chamber, South Africa',
         }),
         articles.add({
             '@type': 'http://schema.org/Article',
-            '@id': 'http://localhost:8081/articles/24231',
             'http://schema.org/name': 'The age of Homo naledi and associated sediments in the Rising Star Cave, South Africa',
         }),
     ]);
