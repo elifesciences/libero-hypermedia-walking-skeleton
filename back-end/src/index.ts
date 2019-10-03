@@ -31,4 +31,4 @@ app.use(bodyParser({
 }));
 app.use(router.routes()).use(router.allowedMethods());
 
-app.listen(8081, (): void => console.log('Back-end started'));
+app.listen(8081, (): void => console.log('Back-end started at http://localhost:8081'));

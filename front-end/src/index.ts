@@ -24,4 +24,4 @@ app.use(logger());
 app.use(bodyParser());
 app.use(router.routes()).use(router.allowedMethods());
 
-app.listen(8080, (): void => console.log('Front-end started'));
+app.listen(8080, (): void => console.log('Front-end started at http://localhost:8080'));
