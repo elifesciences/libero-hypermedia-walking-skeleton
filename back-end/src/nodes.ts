@@ -15,13 +15,15 @@ export interface Nodes {
     has(id: Iri): Promise<boolean>;
 }
 
+type IdGenerator = (id: string) => Iri;
+
 const sha256 = (string: string) => crypto.createHash('sha256').update(string, 'utf8').digest('hex');
 
 export class FileNodes implements Nodes {
     private readonly dir: string;
-    private readonly idGenerator: (string) => Iri;
+    private readonly idGenerator: IdGenerator;
 
-    constructor(dir: string, idGenerator: (string) => Iri) {
+    constructor(dir: string, idGenerator: IdGenerator) {
         this.dir = dir;
         this.idGenerator = idGenerator;
     }
