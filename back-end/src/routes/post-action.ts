@@ -26,8 +26,7 @@ export default (actions: Nodes, articles: Nodes): Koa.Middleware => {
             throw new Error(`http://schema.org/result is not a 'http://schema.org/Article'`);
         }
 
-        delete action['http://schema.org/target'];
-        delete action['http://schema.org/error'];
+        ['http://schema.org/error', 'http://schema.org/potentialAction', 'http://schema.org/target'].forEach(property => delete action[property]);
 
         action['http://schema.org/actionStatus'] = 'http://schema.org/ActiveActionStatus';
 
