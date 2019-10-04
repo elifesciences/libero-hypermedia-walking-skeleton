@@ -3,6 +3,7 @@ import {Request} from 'koa';
 import {constants} from 'http2';
 import jsonld from 'jsonld';
 import {Context, Document, JsonLdArray, JsonLdObj} from 'jsonld/jsonld-spec';
+import {DateTime} from 'luxon';
 import {Nodes} from "../nodes";
 
 interface PostActionRouteContext extends Koa.Context {
@@ -26,9 +27,10 @@ export default (actions: Nodes, articles: Nodes): Koa.Middleware => {
             throw new Error(`http://schema.org/result is not a 'http://schema.org/Article'`);
         }
 
-        ['http://schema.org/error', 'http://schema.org/potentialAction', 'http://schema.org/target'].forEach(property => delete action[property]);
+        ['http://schema.org/endTime', 'http://schema.org/error', 'http://schema.org/potentialAction', 'http://schema.org/target'].forEach(property => delete action[property]);
 
         action['http://schema.org/actionStatus'] = 'http://schema.org/ActiveActionStatus';
+        action['http://schema.org/startTime'] = DateTime.utc().toISO();
 
         await actions.add(action);
 
@@ -41,6 +43,7 @@ export default (actions: Nodes, articles: Nodes): Koa.Middleware => {
         } catch {
             action['http://schema.org/actionStatus'] = 'http://schema.org/FailedActionStatus';
         }
+        action['http://schema.org/endTime'] = DateTime.utc().toISO();
 
         await actions.add(action);
 
