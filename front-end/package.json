@@ -14,7 +14,8 @@
         "koa-bodyparser": "^4.2.1",
         "koa-logger": "^3.2.1",
         "koa-router": "^7.4.0",
-        "lodash.clonedeep": "^4.5.0"
+        "lodash.clonedeep": "^4.5.0",
+        "url-template": "^2.0.8"
     },
     "devDependencies": {
         "@types/atob": "^2.1.2",
@@ -26,6 +27,7 @@
         "@types/koa-logger": "^3.1.1",
         "@types/koa-router": "^7.0.42",
         "@types/lodash.clonedeep": "^4.5.6",
+        "@types/url-template": "^2.0.28",
         "nodemon": "^1.19.3",
         "ts-node": "^8.4.1",
         "typescript": "^3.6.3"

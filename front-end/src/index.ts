@@ -7,6 +7,7 @@ import bodyParser from 'koa-bodyparser';
 import article from './routes/article';
 import createArticle from './routes/create-article';
 import homepage from './routes/homepage';
+import search from './routes/search';
 
 const app: Koa = new Koa();
 const router: Router = new Router();
@@ -19,6 +20,7 @@ client.interceptors.request.use(requestLogger);
 router.get('homepage', '/', homepage(client, router));
 router.get('article', '/articles/:id', article(client, router));
 router.post('create-article', '/articles', createArticle(client, router));
+router.get('search', '/search', search(client, router));
 
 app.use(logger());
 app.use(bodyParser());
