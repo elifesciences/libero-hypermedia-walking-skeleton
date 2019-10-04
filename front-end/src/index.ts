@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {requestLogger} from 'axios-logger';
+import {responseLogger, requestLogger} from 'axios-logger';
 import Koa from 'koa';
 import logger from 'koa-logger';
 import Router from 'koa-router';
@@ -16,6 +16,7 @@ const client = axios.create({
     baseURL: 'http://localhost:8081',
 });
 client.interceptors.request.use(requestLogger);
+client.interceptors.response.use(responseLogger);
 
 router.get('homepage', '/', homepage(client, router));
 router.get('article', '/articles/:id', article(client, router));
