@@ -16,7 +16,6 @@ export interface Nodes {
 }
 
 const sha256 = (string: string) => crypto.createHash('sha256').update(string, 'utf8').digest('hex');
-const ensureDir = (path: string) => fs.mkdirSync(path, {recursive: true});
 
 export class FileNodes implements Nodes {
     private readonly dir: string;
@@ -28,8 +27,7 @@ export class FileNodes implements Nodes {
     }
 
     * all(): Iterable<JsonLdObj> {
-        ensureDir(this.dir);
-        const files = fs.readdirSync(this.dir);
+        const files = fs.readdirSync(this.dir).filter(file => file.endsWith('.json'));
 
         for (const file of files) {
             yield jsonfile.readFileSync(path.resolve(this.dir, file));
@@ -37,8 +35,6 @@ export class FileNodes implements Nodes {
     }
 
     async add(node: JsonLdObj): Promise<void> {
-        ensureDir(this.dir);
-
         if (!(node['@type'])) {
             throw new Error('Not a node object');
         }
