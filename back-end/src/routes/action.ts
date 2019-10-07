@@ -22,7 +22,7 @@ export default (actions: Nodes, iriGenerator: (string) => Iri): Koa.Middleware =
         }
 
         response.status = constants.HTTP_STATUS_OK;
-        response.type = 'application/ld+json';
         response.body = await jsonld.compact(await actions.get(iri), context);
+        response.type = 'application/ld+json';
     };
 };

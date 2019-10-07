@@ -48,7 +48,7 @@ export default (actions: Nodes, articles: Nodes): Koa.Middleware => {
         await actions.add(action);
 
         response.status = constants.HTTP_STATUS_CREATED;
-        response.type = 'application/ld+json';
         response.body = await jsonld.compact(action, context);
+        response.type = 'application/ld+json';
     };
 };

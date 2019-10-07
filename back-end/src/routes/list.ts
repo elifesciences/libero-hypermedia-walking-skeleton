@@ -46,7 +46,7 @@ export default (articles: Nodes, router: Router): Koa.Middleware => {
         };
 
         response.status = constants.HTTP_STATUS_OK;
-        response.type = 'application/ld+json';
         response.body = await jsonld.compact(list, context);
+        response.type = 'application/ld+json';
     };
 };
