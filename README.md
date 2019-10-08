@@ -29,6 +29,7 @@
 
 - JSON-LD will need a wrapper around it, as it can be in lots of different forms (eg single value, multiple value)
   - Doesn't appear to exist though?
+  - Sci.pe have their own library, with helpers like [`get-value()`](https://github.com/science-periodicals/jsonld/blob/master/src/lib/get-value.js)
 - No tooling available about using Schema.org as hypermedia
   - Got me thinking about Hydra again, which does having tooling in JS (eg [Alcaeus](https://www.npmjs.com/package/alcaeus))
     - Still hard to understand, and not sure it adds anything over Schema.org
