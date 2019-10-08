@@ -20,6 +20,8 @@ export default (client: AxiosInstance, router: Router): Koa.Middleware => {
 
         let body: string = '<html><body><h1>Homepage</h1>';
 
+        // Need to find out the individual items to get their title.
+        // Ideally solved with server push? (Maybe embedding? Is it possible to do a partial embed?)
         const parts: Array<[string, Promise<JsonLdObj>]> = (list['http://schema.org/hasPart'] || []).reduce(
             (carry: Array<[string, Promise<JsonLdObj>]>, part: JsonLdObj): Array<[string, Promise<JsonLdObj>]> => {
                 carry.push([part['@value'], fetch(client, part['@value'], 'http://schema.org/Article')]);
@@ -34,6 +36,8 @@ export default (client: AxiosInstance, router: Router): Koa.Middleware => {
             for (const [id, object] of parts) {
                 const article = await object;
 
+                // Assume the value is a string (if present), need to check for the language and type (could be HTML, or
+                // something weird that we don't understand).
                 body += `<li><a href="${router.url('article', btoa(id))}">${article['http://schema.org/name'][0]['@value'] || 'Unknown article'}</a></li>`
             }
 

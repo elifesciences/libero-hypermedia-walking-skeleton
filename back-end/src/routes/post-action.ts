@@ -27,6 +27,7 @@ export default (actions: Nodes, articles: Nodes): Koa.Middleware => {
             throw new Error(`http://schema.org/result is not a 'http://schema.org/Article'`);
         }
 
+        // Remove properties we know don't make sense here, allowing ones we don't know about to be kept.
         ['http://schema.org/endTime', 'http://schema.org/error', 'http://schema.org/potentialAction', 'http://schema.org/target'].forEach(property => delete action[property]);
 
         action['http://schema.org/actionStatus'] = 'http://schema.org/ActiveActionStatus';

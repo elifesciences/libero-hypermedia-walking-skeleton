@@ -14,6 +14,7 @@ export const fetch = async (client: AxiosInstance, uri: string, type: string): P
     return object;
 };
 
+// Relies on expanded JSON-LD (the only consistent form), which shows how ugly it is to access things without a wrapper.
 export const findPotentialAction = (thing: JsonLdObj, action: Iri, type?: Iri): JsonLdObj | null => {
     const potentialActions: Array<JsonLdObj> = thing['http://schema.org/potentialAction'] || [];
 
