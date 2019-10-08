@@ -45,3 +45,4 @@
     - API can be accessed, but also through local services like a web app and third-party integrations
   - Combining multiple APIs
     - Is there one entrypoint or many?
+- JSON-LD context resolution needs to be considered (at least HTTP caching, but ideally using local context files, like https://github.com/science-periodicals/ontology/blob/gh-pages/context.js)

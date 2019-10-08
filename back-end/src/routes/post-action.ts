@@ -2,7 +2,7 @@ import Koa from 'koa';
 import {Request} from 'koa';
 import {constants} from 'http2';
 import jsonld from 'jsonld';
-import {Context, Document, JsonLdArray, JsonLdObj} from 'jsonld/jsonld-spec';
+import {Document, JsonLdArray, JsonLdObj} from 'jsonld/jsonld-spec';
 import {DateTime} from 'luxon';
 import {Nodes} from "../nodes";
 
@@ -13,8 +13,6 @@ interface PostActionRouteContext extends Koa.Context {
 }
 
 export default (actions: Nodes, articles: Nodes): Koa.Middleware => {
-    const context: Context = 'http://schema.org/';
-
     return async ({request, response}: PostActionRouteContext): Promise<void> => {
         const expanded = <JsonLdArray>await jsonld.expand(request.body);
         const action = <JsonLdObj>expanded[0];
@@ -49,7 +47,7 @@ export default (actions: Nodes, articles: Nodes): Koa.Middleware => {
         await actions.add(action);
 
         response.status = constants.HTTP_STATUS_CREATED;
-        response.body = await jsonld.compact(action, context);
+        response.body = await jsonld.compact(action, {});
         response.type = 'application/ld+json';
     };
 };

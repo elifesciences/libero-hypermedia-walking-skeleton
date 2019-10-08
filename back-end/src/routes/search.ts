@@ -1,7 +1,7 @@
 import Koa, {Request} from 'koa';
 import {constants} from 'http2';
 import jsonld from 'jsonld';
-import {Context, Document, JsonLdObj} from 'jsonld/jsonld-spec';
+import {Document, JsonLdObj} from 'jsonld/jsonld-spec';
 import {Nodes} from '../nodes';
 import Router from 'koa-router';
 
@@ -14,8 +14,6 @@ interface SearchRouteContext extends Koa.Context {
 }
 
 export default (articles: Nodes, router: Router): Koa.Middleware => {
-    const context: Context = 'http://schema.org/';
-
     return async ({request, response}: SearchRouteContext): Promise<void> => {
         const keyword: string = request.query.keyword || '';
         const searchRoute = router.route('search');
@@ -40,7 +38,7 @@ export default (articles: Nodes, router: Router): Koa.Middleware => {
         };
 
         response.status = constants.HTTP_STATUS_OK;
-        response.body = await jsonld.compact(list, context);
+        response.body = await jsonld.compact(list, {});
         response.type = 'application/ld+json';
     };
 };
