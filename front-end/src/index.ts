@@ -1,9 +1,10 @@
 import axios from 'axios';
-import {responseLogger, requestLogger} from 'axios-logger';
+import {requestLogger, responseLogger} from 'axios-logger';
 import Koa from 'koa';
 import logger from 'koa-logger';
 import Router from 'koa-router';
 import bodyParser from 'koa-bodyparser';
+import HttpProxyAgent from 'http-proxy-agent';
 import article from './routes/article';
 import createArticle from './routes/create-article';
 import homepage from './routes/homepage';
@@ -12,8 +13,11 @@ import search from './routes/search';
 const app: Koa = new Koa();
 const router: Router = new Router();
 
+const proxy = new HttpProxyAgent(process.env.API_URI || 'http://localhost:8081');
+
 const client = axios.create({
     baseURL: 'http://localhost:8081',
+    httpAgent: proxy,
 });
 client.interceptors.request.use(requestLogger);
 client.interceptors.response.use(responseLogger);

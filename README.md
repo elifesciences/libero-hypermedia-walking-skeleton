@@ -16,7 +16,7 @@
 
 ## Running it
 
-- Run `make`
+- Run `make` (or `make docker`)
 - Open http://localhost:8080 to see the public-facing app
   - Fill out the 'Create an article' form
   - See the result appear in the list and basic search

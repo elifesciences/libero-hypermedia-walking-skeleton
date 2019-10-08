@@ -10,3 +10,7 @@ run-back-end:
 run-front-end:
 	cd front-end && npm install
 	cd front-end && npm run start:watch
+
+docker:
+	docker-compose build --parallel
+	docker-compose up
