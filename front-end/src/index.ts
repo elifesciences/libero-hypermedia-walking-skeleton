@@ -13,6 +13,7 @@ import search from './routes/search';
 const app: Koa = new Koa();
 const router: Router = new Router();
 
+// Needed when using Docker as 'http://localhost:8081' is the public API, but it's connecting through an internal one.
 const proxy = new HttpProxyAgent(process.env.API_URI || 'http://localhost:8081');
 
 const client = axios.create({
