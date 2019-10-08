@@ -62,7 +62,7 @@ export default (client: AxiosInstance, router: Router): Koa.Middleware => {
             body += '<h2>Create an article</h2>';
             body += `<form action="${router.url('create-article', {})}" method="post">`;
             body += '<label>Name <input type="text" name="fields.name"></label><br>';
-            body += `<input type="hidden" name="action" value="${escapeHTML(JSON.stringify(await jsonld.compact(createAction, 'http://schema.org/')))}">`;
+            body += `<input type="hidden" name="action" value="${escapeHTML(JSON.stringify(await jsonld.compact(createAction, {})))}">`;
             body += '<input type="submit" value="Add">';
             body += '</form>';
         }
