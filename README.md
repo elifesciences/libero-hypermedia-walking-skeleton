@@ -38,3 +38,4 @@
   - JSON-LD support appears to be broken, Turtle worked
   - API is quite nice, but going all in on RDF is probably a set to far
   - Hard to see how it would be persisted without using something completely unfamiliar (SPARQL, supported by Amazon Neptune)
+  - Got Tim Berners-Lee behind it
