@@ -40,3 +40,8 @@
   - API is quite nice, but going all in on RDF is probably a set to far
   - Hard to see how it would be persisted without using something completely unfamiliar (SPARQL, supported by Amazon Neptune)
   - Got Tim Berners-Lee behind it (used in https://solid.inrupt.com/)
+- Things that need investigating:
+  - Authentication/authorization
+    - API can be accessed, but also through local services like a web app and third-party integrations
+  - Combining multiple APIs
+    - Is there one entrypoint or many?
