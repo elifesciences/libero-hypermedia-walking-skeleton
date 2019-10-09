@@ -20,7 +20,7 @@
 - Open http://localhost:8080 to see the public-facing app
   - Fill out the 'Create an article' form
   - See the result appear in the list and basic search
-  - Look at the logs to see responses from the API
+  - Look at the logs to see responses from the API (lines beginning `[Axios][Response]`)
     - Especially actions being created, which have their own URI.
 - Open http://localhost:8081 to see the API
   - See links that can be followed, and actions that can be performed
