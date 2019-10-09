@@ -41,6 +41,9 @@ export default (articles: Nodes, router: Router): Koa.Middleware => {
                         'http://schema.org/valueName': 'keyword',
                     },
                 },
+                /*
+                 * curl -v -X POST -H "Content-Type: application/ld+json" http://localhost:8081/register -d '{"@type": "http://schema.org/RegisterAction", "http://schema.org/agent": {"@type":"http://schema.org/Person", "http://schema.org/givenName":"Giorgio"}}'
+                */
                 {
                     "@type": "http://schema.org/RegisterAction",
                     'http://schema.org/target': {
@@ -48,11 +51,11 @@ export default (articles: Nodes, router: Router): Koa.Middleware => {
                         'http://schema.org/urlTemplate': registerRoute.url({}),
                         'http://schema.org/encodingType': 'application/ld+json',
                     },
-                    'http://schema.org/givenName-input': {
+                    'http://schema.org/agent-input': {
                         '@type': 'http://schema.org/PropertyValueSpecification',
 
                         'http://schema.org/valueRequired': true,
-                        'http://schema.org/valueName': 'givenName',
+                        'http://schema.org/valueName': 'agent',
                     }
                 }
             ],
