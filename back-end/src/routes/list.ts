@@ -12,6 +12,7 @@ export default (articles: Nodes, router: Router): Koa.Middleware => {
     return async ({response}: ListRouteContext): Promise<void> => {
         const createActionRoute = router.route('create-action');
         const searchRoute = router.route('search');
+        const registerRoute = router.route('register');
 
         const list: Document = {
             '@type': 'http://schema.org/Collection',
@@ -40,6 +41,20 @@ export default (articles: Nodes, router: Router): Koa.Middleware => {
                         'http://schema.org/valueName': 'keyword',
                     },
                 },
+                {
+                    "@type": "http://schema.org/RegisterAction",
+                    'http://schema.org/target': {
+                        'http://schema.org/httpMethod': registerRoute.methods,
+                        'http://schema.org/urlTemplate': registerRoute.url({}),
+                        'http://schema.org/encodingType': 'application/ld+json',
+                    },
+                    'http://schema.org/givenName-input': {
+                        '@type': 'http://schema.org/PropertyValueSpecification',
+
+                        'http://schema.org/valueRequired': true,
+                        'http://schema.org/valueName': 'givenName',
+                    }
+                }
             ],
         };
 

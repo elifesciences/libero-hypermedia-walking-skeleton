@@ -7,6 +7,7 @@ import article from './routes/article';
 import list from './routes/list';
 import postAction from './routes/post-action';
 import search from './routes/search';
+import register from './routes/register';
 import {FileNodes, Nodes} from "./nodes";
 import path from "path";
 
@@ -24,6 +25,7 @@ router.get('article', '/articles/:id', article(articles, articleIriGenerator));
 router.get('action', '/actions/:id', action(actions, actionIriGenerator));
 router.post('create-action', '/actions', postAction(actions, articles));
 router.get('search', '/search', search(articles, router));
+router.post('register', '/register', register(articles, router));
 
 app.use(logger());
 app.use(bodyParser({
