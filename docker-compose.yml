@@ -4,6 +4,8 @@ services:
     back-end:
         build:
             context: back-end
+        volumes:
+            - ./back-end/db/:/app/db
         ports:
             - 8081:8081
     front-end:
