@@ -4,6 +4,7 @@ import Router from 'koa-router'
 import bodyParser from 'koa-bodyparser';
 import action from './routes/action';
 import article from './routes/article';
+import user from './routes/user';
 import list from './routes/list';
 import postAction from './routes/post-action';
 import search from './routes/search';
@@ -26,7 +27,7 @@ const users: Nodes = new FileNodes(path.resolve(__dirname, '../db/users'), userI
 router.get('list', '/', list(articles, router));
 router.get('article', '/articles/:id', article(articles, articleIriGenerator));
 router.get('action', '/actions/:id', action(actions, actionIriGenerator));
-router.get('user', '/user/:id', article(users, userIriGenerator));
+router.get('user', '/user/:id', user(users, userIriGenerator));
 router.post('create-action', '/actions', postAction(actions, articles));
 router.get('search', '/search', search(articles, router));
 router.post('register', '/register', register(actions, users));
