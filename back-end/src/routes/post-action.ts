@@ -31,6 +31,7 @@ export default (actions: Nodes, articles: Nodes): Koa.Middleware => {
         action['http://schema.org/actionStatus'] = 'http://schema.org/ActiveActionStatus';
         action['http://schema.org/startTime'] = DateTime.utc().toISO();
 
+        // why are we storing the action? Strictly need to keep it around?
         await actions.add(action);
 
         const article = action['http://schema.org/result'][0];

@@ -4,9 +4,11 @@ import Router from 'koa-router'
 import bodyParser from 'koa-bodyparser';
 import action from './routes/action';
 import article from './routes/article';
+import user from './routes/user';
 import list from './routes/list';
 import postAction from './routes/post-action';
 import search from './routes/search';
+import register from './routes/register';
 import {FileNodes, Nodes} from "./nodes";
 import path from "path";
 
@@ -15,15 +17,20 @@ const router: Router = new Router();
 
 const actionIriGenerator = (id: string) => `http://localhost:8081${router.url('action', id)}`;
 const articleIriGenerator = (id: string) => `http://localhost:8081${router.url('article', id)}`;
+// SHOULD be referenceable as part of the API
+const userIriGenerator = (id: string) => `http://localhost:8081${router.url('user', id)}`;
 
 const actions: Nodes = new FileNodes(path.resolve(__dirname, '../db/actions'), actionIriGenerator);
 const articles: Nodes = new FileNodes(path.resolve(__dirname, '../db/articles'), articleIriGenerator);
+const users: Nodes = new FileNodes(path.resolve(__dirname, '../db/users'), userIriGenerator);
 
 router.get('list', '/', list(articles, router));
 router.get('article', '/articles/:id', article(articles, articleIriGenerator));
 router.get('action', '/actions/:id', action(actions, actionIriGenerator));
+router.get('user', '/user/:id', user(users, userIriGenerator));
 router.post('create-action', '/actions', postAction(actions, articles));
 router.get('search', '/search', search(articles, router));
+router.post('register', '/register', register(actions, users));
 
 app.use(logger());
 app.use(bodyParser({

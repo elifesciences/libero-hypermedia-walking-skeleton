@@ -67,6 +67,17 @@ export default (client: AxiosInstance, router: Router): Koa.Middleware => {
             body += '</form>';
         }
 
+        const registerAction = findPotentialAction(list, 'http://schema.org/RegisterAction');
+
+        if (registerAction) {
+            body += '<h2>Register as a user</h2>';
+            body += `<form action="${router.url('register', {})}" method="post">`;
+            body += '<label>Given name <input type="text" name="given-name"></label><br>';
+            body += `<input type="hidden" name="action" value="${escapeHTML(JSON.stringify(await jsonld.compact(registerAction, {})))}">`;
+            body += '<input type="submit" value="Register">';
+            body += '</form>';
+        }
+
         body += '</body></html>';
 
         response.body = body;

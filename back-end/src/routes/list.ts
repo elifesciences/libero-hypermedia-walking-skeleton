@@ -12,6 +12,7 @@ export default (articles: Nodes, router: Router): Koa.Middleware => {
     return async ({response}: ListRouteContext): Promise<void> => {
         const createActionRoute = router.route('create-action');
         const searchRoute = router.route('search');
+        const registerRoute = router.route('register');
 
         const list: Document = {
             '@type': 'http://schema.org/Collection',
@@ -40,6 +41,22 @@ export default (articles: Nodes, router: Router): Koa.Middleware => {
                         'http://schema.org/valueName': 'keyword',
                     },
                 },
+                /*
+                 * curl -v -X POST -H "Content-Type: application/ld+json" http://localhost:8081/register -d '{"@type": "http://schema.org/RegisterAction", "http://schema.org/agent": {"@type":"http://schema.org/Person", "http://schema.org/givenName":"Giorgio"}}'
+                */
+                {
+                    "@type": "http://schema.org/RegisterAction",
+                    'http://schema.org/target': {
+                        'http://schema.org/httpMethod': registerRoute.methods,
+                        'http://schema.org/urlTemplate': registerRoute.url({}),
+                        'http://schema.org/encodingType': 'application/ld+json',
+                    },
+                    'http://schema.org/agent-input': {
+                        '@type': 'http://schema.org/PropertyValueSpecification',
+
+                        'http://schema.org/valueRequired': true,
+                    }
+                }
             ],
         };
 
