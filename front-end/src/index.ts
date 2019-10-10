@@ -9,6 +9,7 @@ import article from './routes/article';
 import createArticle from './routes/create-article';
 import homepage from './routes/homepage';
 import search from './routes/search';
+import register from './routes/register';
 
 const app: Koa = new Koa();
 const router: Router = new Router();
@@ -27,6 +28,7 @@ router.get('homepage', '/', homepage(client, router));
 router.get('article', '/articles/:id', article(client, router));
 router.post('create-article', '/articles', createArticle(client, router));
 router.get('search', '/search', search(client, router));
+router.post('register', '/register', register(client, router));
 
 app.use(logger());
 app.use(bodyParser());
