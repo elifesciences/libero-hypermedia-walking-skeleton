@@ -4,5 +4,5 @@ WORKDIR /app
 
 COPY ./ ./
 RUN npm install && \
-    mkdir -p db/actions db/articles
+    mkdir -p db/actions db/articles db/users
 CMD ["npm", "run", "start"]

@@ -1,5 +1,6 @@
 /db/actions/*
 /db/articles/*
+/db/users/*
 /dist/
 /node_modules/
 !.gitkeep
