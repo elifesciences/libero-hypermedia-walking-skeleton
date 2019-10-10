@@ -34,7 +34,9 @@ export default (actions: Nodes, users: Nodes): Koa.Middleware => {
 
         try {
             await users.add(user);
-            action['http://schema.org/agent'] = user['@id'];
+            action['http://schema.org/agent'] = {
+                '@id': user['@id'],
+            }
             action['http://schema.org/actionStatus'] = 'http://schema.org/CompletedActionStatus';
         } catch {
             action['http://schema.org/actionStatus'] = 'http://schema.org/FailedActionStatus';

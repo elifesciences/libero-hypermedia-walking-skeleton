@@ -49,7 +49,7 @@ export default (client: AxiosInstance, router: Router): Koa.Middleware => {
         response.type = 'html';
         // could possibly load this, if it was implemented
         // or anyway implement a front end page for this rather than linking to the API from this layer
-        let body = `Registration completed for ${completedAction['http://schema.org/agent'][0]['@value']}`;
+        let body = `Registration completed for ${completedAction['http://schema.org/agent'][0]['@id']}`;
         response.body = body;
     }
 };
