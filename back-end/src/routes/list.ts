@@ -55,7 +55,6 @@ export default (articles: Nodes, router: Router): Koa.Middleware => {
                         '@type': 'http://schema.org/PropertyValueSpecification',
 
                         'http://schema.org/valueRequired': true,
-                        'http://schema.org/valueName': 'agent',
                     }
                 }
             ],
