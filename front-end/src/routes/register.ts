@@ -2,7 +2,7 @@ import Koa, {Request} from 'koa';
 import {constants} from 'http2';
 import {AxiosInstance} from 'axios';
 import jsonld from 'jsonld';
-import {JsonLdObj} from 'jsonld/jsonld-spec';
+import {JsonLdArray, JsonLdObj} from 'jsonld/jsonld-spec';
 import Router from 'koa-router';
 import btoa from 'btoa';
 import {fetch, findPotentialAction} from '../utils';
@@ -36,15 +36,19 @@ export default (client: AxiosInstance, router: Router): Koa.Middleware => {
         // also assumes no templating
         const targetUrl = registerAction['http://schema.org/target'][0]['http://schema.org/urlTemplate'][0]['@value'];
         console.log(targetUrl);
-        await client({
+        const serverResponse = await client({
             method: registerAction['http://schema.org/target'][0]['http://schema.org/httpMethod'][0]['@value'],
             url: targetUrl,
             data: newAction,
         });
+        const expanded = <JsonLdArray>await jsonld.expand(serverResponse.data);
+        const completedAction = <JsonLdObj>expanded[0];
+        console.log(completedAction);
 
         response.status = constants.HTTP_STATUS_OK;
         response.type = 'html';
-        let body = 'Registration completed, output not implemented yet';
+        // could possibly load this, if it was implemented
+        let body = `Registration completed for ${completedAction['http://schema.org/agent'][0]['@value']}`;
         response.body = body;
     }
 };
