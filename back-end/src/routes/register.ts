@@ -7,9 +7,7 @@ import Router from 'koa-router';
 
 interface RegisterRouteContext extends Koa.Context {
     request: Request & {
-        query: {
-            keyword: string,
-        },
+        body: Document,
     },
 }
 
