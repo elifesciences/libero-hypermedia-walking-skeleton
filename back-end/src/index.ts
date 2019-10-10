@@ -16,7 +16,7 @@ const router: Router = new Router();
 
 const actionIriGenerator = (id: string) => `http://localhost:8081${router.url('action', id)}`;
 const articleIriGenerator = (id: string) => `http://localhost:8081${router.url('article', id)}`;
-// corresponds to an actual URL backed by the API at the moment, but is that mandatory?
+// SHOULD be referenceable as part of the API
 const userIriGenerator = (id: string) => `http://localhost:8081${router.url('user', id)}`;
 
 const actions: Nodes = new FileNodes(path.resolve(__dirname, '../db/actions'), actionIriGenerator);
