@@ -37,7 +37,7 @@ export default (actions: Nodes, articles: Nodes): Koa.Middleware => {
 
         try {
             await articles.add(article);
-            action['http://schema.org/result'] = article['@id'];
+            action['http://schema.org/result'] = {'@id': article['@id']};
             action['http://schema.org/actionStatus'] = 'http://schema.org/CompletedActionStatus';
         } catch {
             action['http://schema.org/actionStatus'] = 'http://schema.org/FailedActionStatus';
