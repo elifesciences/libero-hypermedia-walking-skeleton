@@ -7,46 +7,54 @@ import btoa from 'btoa';
 import Router from 'koa-router';
 import escapeHTML from 'escape-html';
 import {fetch, findPotentialAction} from '../utils';
+import urlTemplate from "url-template";
 
 interface HomepageRouteContext extends Koa.Context {
 }
 
 export default (client: AxiosInstance, router: Router): Koa.Middleware => {
     return async ({response}: HomepageRouteContext): Promise<void> => {
-        const list = await fetch(client, '/', 'http://schema.org/Collection');
+        const api = await fetch(client, '/', 'http://schema.org/WebAPI');
 
         response.status = constants.HTTP_STATUS_OK;
         response.type = 'html';
 
         let body: string = '<html><body><h1>Homepage</h1>';
 
-        // Need to find out the individual items to get their title.
-        // Ideally solved with server push? (Maybe embedding? Is it possible to do a partial embed?)
-        const parts: Array<[string, Promise<JsonLdObj>]> = (list['http://schema.org/hasPart'] || []).reduce(
-            (carry: Array<[string, Promise<JsonLdObj>]>, part: JsonLdObj): Array<[string, Promise<JsonLdObj>]> => {
-                carry.push([part['@value'], fetch(client, part['@value'], 'http://schema.org/Article')]);
+        const articlesAction = findPotentialAction(api, 'http://schema.org/DiscoverAction');
 
-                return carry;
-            }, []
-        );
+        if (articlesAction) {
+            const target = urlTemplate.parse(articlesAction['http://schema.org/target'][0]['@value']);
+            const list = await fetch(client, target.expand({}), 'http://schema.org/Collection');
 
-        if (parts.length) {
-            body += '<h2>Articles</h2><ol>';
+            // Need to find out the individual items to get their title.
+            // Ideally solved with server push? (Maybe embedding? Is it possible to do a partial embed?)
+            const parts: Array<[string, Promise<JsonLdObj>]> = (list['http://schema.org/hasPart'] || []).reduce(
+                (carry: Array<[string, Promise<JsonLdObj>]>, part: JsonLdObj): Array<[string, Promise<JsonLdObj>]> => {
+                    carry.push([part['@value'], fetch(client, part['@value'], 'http://schema.org/Article')]);
 
-            for (const [id, object] of parts) {
-                const article = await object;
+                    return carry;
+                }, []
+            );
 
-                // Assume the value is a string (if present), need to check for the language and type (could be HTML, or
-                // something weird that we don't understand).
-                body += `<li><a href="${router.url('article', btoa(id))}">${article['http://schema.org/name'][0]['@value'] || 'Unknown article'}</a></li>`
+            if (parts.length) {
+                body += '<h2>Articles</h2><ol>';
+
+                for (const [id, object] of parts) {
+                    const article = await object;
+
+                    // Assume the value is a string (if present), need to check for the language and type (could be HTML, or
+                    // something weird that we don't understand).
+                    body += `<li><a href="${router.url('article', btoa(id))}">${article['http://schema.org/name'][0]['@value'] || 'Unknown article'}</a></li>`
+                }
+
+                body += '</ol>';
+            } else {
+                body += '<p>No articles available.</p>';
             }
-
-            body += '</ol>';
-        } else {
-            body += '<p>No articles available.</p>';
         }
 
-        const searchAction = findPotentialAction(list, 'http://schema.org/SearchAction');
+        const searchAction = findPotentialAction(api, 'http://schema.org/SearchAction');
 
         if (searchAction) {
             body += '<h2>Search</h2>';
@@ -56,7 +64,7 @@ export default (client: AxiosInstance, router: Router): Koa.Middleware => {
             body += '</form>';
         }
 
-        const createAction = findPotentialAction(list, 'http://schema.org/CreateAction', 'http://schema.org/Article');
+        const createAction = findPotentialAction(api, 'http://schema.org/CreateAction', 'http://schema.org/Article');
 
         if (createAction) {
             body += '<h2>Create an article</h2>';

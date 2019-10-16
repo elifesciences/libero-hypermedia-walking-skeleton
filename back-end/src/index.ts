@@ -4,6 +4,7 @@ import Router from 'koa-router'
 import bodyParser from 'koa-bodyparser';
 import action from './routes/action';
 import article from './routes/article';
+import entrypoint from './routes/entrypoint';
 import list from './routes/list';
 import postAction from './routes/post-action';
 import search from './routes/search';
@@ -19,7 +20,8 @@ const articleIriGenerator = (id: string) => `http://localhost:8081${router.url('
 const actions: Nodes = new FileNodes(path.resolve(__dirname, '../db/actions'), actionIriGenerator);
 const articles: Nodes = new FileNodes(path.resolve(__dirname, '../db/articles'), articleIriGenerator);
 
-router.get('list', '/', list(articles, router));
+router.get('entrypoint', '/', entrypoint(router));
+router.get('list', '/articles', list(articles, router));
 router.get('article', '/articles/:id', article(articles, articleIriGenerator));
 router.get('action', '/actions/:id', action(actions, actionIriGenerator));
 router.post('create-action', '/actions', postAction(actions, articles));
