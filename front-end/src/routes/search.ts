@@ -18,7 +18,7 @@ interface SearchRouteContext extends Koa.Context {
 export default (client: AxiosInstance, router: Router): Koa.Middleware => {
     return async ({request, response}: SearchRouteContext): Promise<void> => {
         // Need to find the search action again to know if it's available/how to perform it, this should be cached.
-        const searchAction = findPotentialAction(await fetch(client, '/', 'http://schema.org/Collection'), 'http://schema.org/SearchAction');
+        const searchAction = findPotentialAction(await fetch(client, '/', 'http://schema.org/WebAPI'), 'http://schema.org/SearchAction');
 
         if (!(searchAction)) {
             response.status = constants.HTTP_STATUS_NOT_FOUND;
