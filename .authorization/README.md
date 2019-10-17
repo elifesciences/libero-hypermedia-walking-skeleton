@@ -67,9 +67,27 @@ The `potentialAction` contains:
 }
 ```
 
-7. a custom kind of DigitalDocumentPermission
+7. An administrator can add people to the production team
 
-TBD
+```
+{
+    "@type": "Audience",
+    "audienceType": "production",
+    # doesn't look right on a generic resource that is not content
+    "http://schema.org/hasDigitalDocumentPermission": [
+		{
+			"@type": "http://schema.org/DigitalDocumentPermission",
+			"http://schema.org/permissionType": "AdminPermission",
+			"http://schema.org/grantee": [
+				 {
+					"@type": "http://schema.org/Audience",
+					"audienceType": "administrators"
+				 }
+			 ]
+		},
+    ]
+}
+```
 
 8. A production team member can delegate publication to a marketing team member in order to coordinate press releases to the minute
 
