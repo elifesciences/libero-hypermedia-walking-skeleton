@@ -60,7 +60,7 @@ The `potentialAction` contains:
 {
     "@type": "PublishAction",
     "actionStatus": "PotentialActionStatus",
-    "requiresCompletionOf": {
+    "https://libero.pub/requiresCompletionOf": {
         "@type": "IngestAction",
         "actionStatus": "ActiveActionStatus"
     }
