@@ -26,10 +26,10 @@
 			"http://schema.org/permissionType": "WritePermission",
       // the production team can modify
 			"http://schema.org/grantee": [
-				 {
-					"@type": "http://schema.org/Audience",
-					"audienceType": "production"
-				 }
+  				 {
+  					"@type": "http://schema.org/Audience",
+  					"audienceType": "production"
+  				 }
 			 ]
 		}
 	],
@@ -42,7 +42,9 @@
 	  				"@type": "http://schema.org/Role",
 	  				"http://schema.org/roleName": "production"
 				},
-				// editorial team can view the past action(s) but not issue them
+      ],
+			"http://schema.org/participant": [
+				// editorial team can view the possible action(s) but not issue them
 				{
 					  "@type": "http://schema.org/Role",
             "http://schema.org/roleName": "editorial"
