@@ -119,3 +119,7 @@ To be more general, the `recipient` here could possibly be parameterized rather 
 9. Only the author of a paper can see its preview, not all authors in general
 
 TBD this is a case that calls for Audience rather than Organization, along with some kind of field describing who the author is
+
+10. The editor-in-chief is denied write permissions for an action if they are also an author of the article.
+
+TBD 
