@@ -9,15 +9,11 @@
 		{
 			"@type": "http://schema.org/DigitalDocumentPermission",
 			"http://schema.org/permissionType": "ReadPermission",
-      // the public and the editorial team can (generically) read
+      // the public can (generically) read
 			"http://schema.org/grantee": [
 				 {
 					"@type": "http://schema.org/Audience",
 					"audienceType": "public"
-				 },
-				 {
-					"@type": "http://schema.org/Audience",
-					"audienceType": "editorial"
 				 }
 			 ]
 		},
