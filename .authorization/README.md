@@ -127,7 +127,34 @@ To be more general, the `recipient` here could possibly be parameterized rather 
 
 9. Only the author of a paper can see its preview, not all authors in general
 
-TBD this is a case that calls for Audience rather than Organization, along with some kind of field describing who the author is
+This is a case that calls for Audience rather than Organization, along with some kind of field describing who the author is:
+
+```
+{
+    "@id":"http://localhost:8081/articles/808dce4276ee8ac7464f12ae30c66180",
+    "@type":"http://schema.org/Article",
+    "author": [
+        {
+            "@id": "http://localhost:8081/users/1234",
+            "@type": "@Person",
+            "name": "Josiah S. Carberry"
+        }
+    ],
+    "http://schema.org/hasDigitalDocumentPermission": [
+        {
+            "@type": "http://schema.org/DigitalDocumentPermission",
+            "http://schema.org/permissionType": "ReadPermission",
+            // the author(s) can view
+            "http://schema.org/grantee": [
+                {
+                    "@type": "http://schema.org/Audience",
+                    "audienceType": "author"
+                }
+            ]
+        },
+    }
+}
+```
 
 10. The editor-in-chief is denied write permissions for an action if they are also an author of the article.
 
